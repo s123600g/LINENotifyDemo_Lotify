@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="{{url_for('static', filename='/node_modules/vue/dist/vue.global.js')}}"></script>
+    <script src="{{url_for('static', filename='/node_modules/jquery/dist/jquery.min.js')}}"></script>
+    <script src="{{url_for('static', filename='/node_modules/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+    {% block pageJS%} {% endblock %}
+
+    <link
+      href="{{url_for('static', filename='/node_modules/bootstrap/dist/css/bootstrap.css')}}"
+      rel="stylesheet"
+    />
+  </head>
+  {% block contentBody%} {% endblock %}
+</html>

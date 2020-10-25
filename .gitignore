@@ -127,3 +127,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Project igone
+*.log
+__pycache__/
+.vscode/
+Log/
+setuptools/
+SSL/
+node_modules/
+dev_env/
+migrations/
