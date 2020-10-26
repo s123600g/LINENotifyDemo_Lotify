@@ -138,3 +138,4 @@ SSL/
 node_modules/
 dev_env/
 migrations/
+Data.db
