@@ -32,7 +32,11 @@
             v-model="message"
           />
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              @click="msg_send"
+            >
               發送訊息
             </button>
           </div>
@@ -42,12 +46,10 @@
 
     <div class="row">
       <div class="col">
-        <ul class="list-group">
-          <li class="list-group-item">Cras justo odio</li>
-          <li class="list-group-item">Dapibus ac facilisis in</li>
-          <li class="list-group-item">Morbi leo risus</li>
-          <li class="list-group-item">Porta ac consectetur ac</li>
-          <li class="list-group-item">Vestibulum at eros</li>
+        <ul class="list-group"  v-for="item in msg_history">
+          <li class="list-group-item">
+            [[ item.msg ]] , [[item.InertDate]]
+          </li>
         </ul>
       </div>
     </div>

@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     data() {
       return {
         message: "",
+        msg_history: [],
       };
     },
     methods: {
@@ -42,7 +43,48 @@ document.addEventListener("DOMContentLoaded", function (event) {
             console.log(err);
           });
       },
+      msg_send() {
+        // 取得網址，不包含URL Search Parames
+        local_url = ParsingURL(
+          (protocol = ""),
+          (port = ""),
+          (hostname = ""),
+          (pathname = "/api/sendMessage")
+        );
+
+        // 取得請求網址
+        url_href = ParsingURL_Combine((url = local_url), (SearchParams = {}));
+
+        fetch(url_href, {
+          method: "POST",
+          body: JSON.stringify({
+            msg: this.message,
+          }),
+        })
+          .then((response) => {
+            // 請求回應狀態處理
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error(
+                "Network response was not ok. " +
+                  "status code: " +
+                  response.status +
+                  " Status Text: " +
+                  response.statusText
+              );
+            }
+          })
+          .then((data) => {
+            this.msg_history = data["HistoryMsg"];
+          })
+          .catch((err) => {
+            alert("與伺服器請求失敗.");
+          });
+      },
     },
+    // 設置vue模板識別符號，用來跟jinja2模板識別符號做分割
+    delimiters: ["[[", "]]"],
   };
 
   Vue.createApp(Counter).mount("#MainArea");

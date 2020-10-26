@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from flask.helpers import url_for
 from Startup import app, db
-from flask import render_template , request , jsonify
+from flask import render_template, request, jsonify, redirect
 from lotify.client import Client
-from Config import CLIENT_ID , SECRET , URI
+from sqlalchemy import desc
+from Config import CLIENT_ID, SECRET, URI
 
 import uuid
 import datetime as dtime
@@ -16,8 +18,8 @@ lotify = Client(client_id=CLIENT_ID, client_secret=SECRET, redirect_uri=URI)
 匯入資料表模型
 ----------------------------------------------------------------------
 '''
-from BaseData.BaseData import Base_Data
 from BaseData.HistoryData import History_Data
+from BaseData.BaseData import Base_Data
 '''-------------------------------------------------------------------'''
 
 '''
@@ -26,8 +28,9 @@ from BaseData.HistoryData import History_Data
 ----------------------------------------------------------------------
 '''
 @app.errorhandler(404)
-def page_not_found(e): # 404 Not Found頁面
+def page_not_found(e):  # 404 Not Found頁面
     return 'PageNotFound 404', 404
+
 '''-------------------------------------------------------------------'''
 
 '''
@@ -41,7 +44,8 @@ def user_subscribe():
     # 取得訂閱授權連結，用在前端導向客戶端到授權頁面去
     link_str = lotify.get_auth_link(state=uuid.uuid4())
 
-    return jsonify(link_str = link_str)
+    return jsonify(link_str=link_str)
+
 '''-------------------------------------------------------------------'''
 
 
@@ -61,14 +65,16 @@ def user_callback():
     '''
     db.session.add(
         Base_Data(
-            user_token = access_token,
-            InertDate = dtime.datetime.now(pytz.timezone("Asia/Taipei")).strftime('%Y-%m-%d %H:%M:%S')
+            user_token=access_token,
+            InertDate=dtime.datetime.strptime(dtime.datetime.now(pytz.timezone(
+                "Asia/Taipei")).strftime('%Y-%m-%d %H:%M:%S'), '%Y-%m-%d %H:%M:%S')
         )
     )
 
     db.session.commit()
 
-    return jsonify(access_token = access_token)
+    return redirect(url_for("index"), code=302)
+
 '''-------------------------------------------------------------------'''
 
 '''
@@ -82,21 +88,36 @@ def sendMessage():
     get_bodyData = request.get_json(force=True)
 
     get_sendMsg = get_bodyData["msg"]
+    list_history = list()
 
     '''
     紀錄歷史發送訊息
     '''
     db.session.add(
         History_Data(
-            msg = get_sendMsg,
-            InertDate = dtime.datetime.now(pytz.timezone("Asia/Taipei")).strftime('%Y-%m-%d %H:%M:%S')
+            msg=get_sendMsg,
+            InertDate=dtime.datetime.strptime(dtime.datetime.now(pytz.timezone(
+                    "Asia/Taipei")).strftime('%Y-%m-%d %H:%M:%S'), '%Y-%m-%d %H:%M:%S')
         )
     )
 
     db.session.commit()
 
-    # 取出全部歷史訊息
-    get_HistoryMsg = History_Data.query.all()
+    '''
+    取出全部歷史訊息
+    '''
+    get_HistoryMsg = History_Data.query.order_by(
+                desc(History_Data.InertDate)
+            ).all()
+
+    for item in get_HistoryMsg:
+        list_history.append(
+            {
+                "msg":item.msg,
+                "InertDate":item.InertDate
+            }
+        )
+
 
     '''
     從資料庫取出訂閱戶token清單
@@ -120,9 +141,9 @@ def sendMessage():
             response = lotify.send_message(
                 access_token=temp_user_token,
                 message=f"{get_sendMsg}"
-            )
+            )                
 
-    return get_HistoryMsg
+    return jsonify(HistoryMsg=list_history)
 '''-------------------------------------------------------------------'''
 
 
@@ -136,5 +157,3 @@ def index():
 
     return render_template('index.html')
 '''-------------------------------------------------------------------'''
-
-

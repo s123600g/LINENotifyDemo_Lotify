@@ -23,12 +23,12 @@ Server start up for develop status config
 class DevelopermentConfig(BaseConfig):
 
     DEBUG = True
-    SECRET_KEY = "FLAskOsw12j/3yX R~Xkl!fgN]baseD/,?TT"
+    SECRET_KEY = "FLAskOii11j/41X R~Xkl!fgN]baseD/,?TT"
 
 class ProductionConfig(BaseConfig):
 
     DEBUG = False
-    SECRET_KEY = "flAsK02385m/4eq s~Xkl!fgN]baseP/,?RL"
+    SECRET_KEY = "flAsK3333m/452 s~Xkl!fgN]baseP/,?RL"
 
 # 環境模式參數設置
 config = {
@@ -41,6 +41,6 @@ config = {
 
 CLIENT_ID = "VfFhQdeyyxhDwMkExM55Jv"
 SECRET = "0ly6wxhpYGYnDoUGtTSZfhzzlIj8UNQ4PZ3QAxAtfN6"
-URI = "http://127.0.0.1:8080/callback"
+URI = "http://127.0.0.1:8080/api/user_callback"
 
 
