@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", function (event) {
-  const Counter = {
+  const App = Vue.createApp({
     data() {
       return {
         message: "",
         msg_history: [],
+        test: 1,
       };
     },
     methods: {
@@ -83,11 +84,45 @@ document.addEventListener("DOMContentLoaded", function (event) {
           });
       },
     },
+    mounted() {
+      // 取得網址，不包含URL Search Parames
+      local_url = ParsingURL(
+        (protocol = ""),
+        (port = ""),
+        (hostname = ""),
+        (pathname = "/api/History")
+      );
+
+      // 取得請求網址
+      url_href = ParsingURL_Combine((url = local_url), (SearchParams = {}));
+
+      fetch(url_href, { method: "GET" })
+        .then(function (response) {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error(
+              "Response status was not ok. " +
+                "status code: " +
+                response.status +
+                " Status Text: " +
+                response.statusText
+            );
+          }
+        })
+        .then(function (data) {
+          this.msg_history = data["HistoryMsg"];
+          console.log(this.msg_history);
+        })
+        .catch((err) => {
+          alert("與伺服器請求失敗.");
+        });
+    },
     // 設置vue模板識別符號，用來跟jinja2模板識別符號做分割
     delimiters: ["[[", "]]"],
-  };
+  }).mount("#MainArea");
 
-  Vue.createApp(Counter).mount("#MainArea");
+  console.log(App.msg_history);
 });
 
 // 取得當前URL

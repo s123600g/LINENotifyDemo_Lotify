@@ -7,3 +7,4 @@ Flask-SQLAlchemy
 Jinja2
 SQLAlchemy
 Werkzeug
+lotify

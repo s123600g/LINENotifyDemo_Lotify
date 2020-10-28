@@ -11,6 +11,9 @@ import uuid
 import datetime as dtime
 import pytz
 
+'''
+lotify Client 物件初始化
+'''
 lotify = Client(client_id=CLIENT_ID, client_secret=SECRET, redirect_uri=URI)
 
 '''
@@ -142,6 +145,34 @@ def sendMessage():
                 access_token=temp_user_token,
                 message=f"{get_sendMsg}"
             )                
+
+    return jsonify(HistoryMsg=list_history)
+'''-------------------------------------------------------------------'''
+
+'''
+----------------------------------------------------------------------
+API-History 實作區塊 
+----------------------------------------------------------------------
+'''
+@app.route("/api/History", methods=['GET'])
+def History():
+
+    list_history = list()
+
+    '''
+    取出全部歷史訊息
+    '''
+    get_HistoryMsg = History_Data.query.order_by(
+                desc(History_Data.InertDate)
+            ).all()
+
+    for item in get_HistoryMsg:
+        list_history.append(
+            {
+                "msg":item.msg,
+                "InertDate":item.InertDate
+            }
+        )
 
     return jsonify(HistoryMsg=list_history)
 '''-------------------------------------------------------------------'''
