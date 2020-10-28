@@ -39,8 +39,6 @@ config = {
     'run_mode_dev':True
 }
 
-CLIENT_ID = "VfFhQdeyyxhDwMkExM55Jv"
-SECRET = "0ly6wxhpYGYnDoUGtTSZfhzzlIj8UNQ4PZ3QAxAtfN6"
+CLIENT_ID = "Vf.........................v"
+SECRET = "0l.............................N6"
 URI = "http://127.0.0.1:8080/api/user_callback"
-
-
