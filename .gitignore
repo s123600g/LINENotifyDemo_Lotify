@@ -141,3 +141,4 @@ migrations/
 Data.db
 *.db
 Config.py
+Data.db
