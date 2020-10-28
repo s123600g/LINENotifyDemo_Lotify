@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
       return {
         message: "",
         msg_history: [],
-        test: 1,
       };
     },
     methods: {
@@ -121,8 +120,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
     // 設置vue模板識別符號，用來跟jinja2模板識別符號做分割
     delimiters: ["[[", "]]"],
   }).mount("#MainArea");
-
-  console.log(App.msg_history);
 });
 
 // 取得當前URL
