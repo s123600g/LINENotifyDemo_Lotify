@@ -26,6 +26,14 @@ tags: Lotify, LINE Notify , Flask
 pip3 install -r requirements.txt
 ```
 
+NPM 套件載入
+--
+`package.json`在專案目錄內`static`底下
+```shell=    
+npm i
+```
+
+
 設定Client ID、Client Secret、Redirect_uri
 --
 在`Config.py`內自行進行設置以下參數
