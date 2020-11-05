@@ -1,13 +1,6 @@
 # !/bin/bash
 PATH=/sbin:/bin:/usr/bin
 
-
-# Use source or . command by terminal.
-# Ex: source script.sh  ||  . script.sh
-# Not use sh command by terminal.
-
-
-
 echo '設定Flask Server 環境參數設定.'
 
 echo '設定FLASK_APP.'

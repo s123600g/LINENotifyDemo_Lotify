@@ -140,3 +140,5 @@ dev_env/
 migrations/
 Data.db
 *.db
+Config.py
+Data.db
