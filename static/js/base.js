@@ -127,36 +127,32 @@ function ParsingURL(protocol, port, hostname, pathname) {
   // 取得當前網址
   let get_URL = new URL(location.href);
 
+  let PROTOCOL = protocol;
   if (protocol == "") {
     // 取得網址中的通訊協定部分
-    var protocol = get_URL.protocol;
-  } else {
-    var protocol = protocol;
+    PROTOCOL = get_URL.protocol;
   }
 
+  let PORT = port;
   if (port == "") {
     // 網址中Port
-    var port = get_URL.port;
-  } else {
-    var port = port;
-  }
-
+    PORT = get_URL.port;
+  } 
+  
+  let HOSTNAME = hostname;
   if (hostname == "") {
     // 取得網址中的主機名稱
-    var hostname = get_URL.hostname;
-  } else {
-    var hostname = hostname;
+    HOSTNAME = get_URL.hostname;
   }
 
+  let PATH_NAME = pathname;
   if (pathname == "") {
     // 取得網頁路徑部分
-    var pathname = get_URL.pathname;
-  } else {
-    var pathname = pathname;
+    PATH_NAME = get_URL.pathname;
   }
 
   // 組成完整URL
-  let full_URL = protocol + "//" + hostname + ":" + port + pathname;
+  let full_URL = PROTOCOL + "//" + HOSTNAME + ":" + PORT + PATH_NAME;
   // console.log(full_URL);
 
   return new URL(full_URL);
