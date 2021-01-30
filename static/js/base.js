@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     methods: {
       user_subscribe() {
         // 取得網址，不包含URL Search Parames
-        local_url = ParsingURL(
+        let local_url = ParsingURL(
           (protocol = ""),
           (port = ""),
           (hostname = ""),
@@ -17,7 +17,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
         );
 
         // 取得請求網址
-        url_href = ParsingURL_Combine((url = local_url), (SearchParams = {}));
+        let url_href = ParsingURL_Combine(
+          (url = local_url),
+          (SearchParams = {})
+        );
 
         fetch(url_href, {
           method: "GET",
@@ -45,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       },
       msg_send() {
         // 取得網址，不包含URL Search Parames
-        local_url = ParsingURL(
+        let local_url = ParsingURL(
           (protocol = ""),
           (port = ""),
           (hostname = ""),
@@ -53,7 +56,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
         );
 
         // 取得請求網址
-        url_href = ParsingURL_Combine((url = local_url), (SearchParams = {}));
+        let url_href = ParsingURL_Combine(
+          (url = local_url),
+          (SearchParams = {})
+        );
 
         fetch(url_href, {
           method: "POST",
@@ -85,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     },
     mounted() {
       // 取得網址，不包含URL Search Parames
-      local_url = ParsingURL(
+      let local_url = ParsingURL(
         (protocol = ""),
         (port = ""),
         (hostname = ""),
@@ -93,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       );
 
       // 取得請求網址
-      url_href = ParsingURL_Combine((url = local_url), (SearchParams = {}));
+      let url_href = ParsingURL_Combine((url = local_url), (SearchParams = {}));
 
       fetch(url_href, { method: "GET" })
         .then(function (response) {
@@ -122,7 +128,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
   }).mount("#MainArea");
 });
 
-// 取得當前URL
+/**
+ * 取得當前URL
+ * @param {string} protocol
+ * @param {string} port
+ * @param {string} hostname
+ * @param {string} pathname
+ */
 function ParsingURL(protocol, port, hostname, pathname) {
   // 取得當前網址
   let get_URL = new URL(location.href);
@@ -137,8 +149,8 @@ function ParsingURL(protocol, port, hostname, pathname) {
   if (port == "") {
     // 網址中Port
     PORT = get_URL.port;
-  } 
-  
+  }
+
   let HOSTNAME = hostname;
   if (hostname == "") {
     // 取得網址中的主機名稱
@@ -158,10 +170,14 @@ function ParsingURL(protocol, port, hostname, pathname) {
   return new URL(full_URL);
 }
 
-// 組合請求URL
+/**
+ * 組合請求URL，如果有網頁參數會自動整合
+ * @param {object} url
+ * @param {object} SearchParams
+ */
 function ParsingURL_Combine(url, SearchParams) {
   // 建立主URL
-  let ajax_URL = new URL(local_url);
+  let ajax_URL = new URL(url);
 
   // 建立URL參數
   let searchParams = new URLSearchParams(SearchParams);
